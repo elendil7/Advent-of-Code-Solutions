@@ -1,5 +1,5 @@
 <div align="center">
-  <h1><img width="5%" alt="Advent of Code icon: star with hat" src="https://github.com/elendil7/Advent-of-Code/blob/master/media/images/AoC_christmas_hat_star_icon.png?raw=true">Advent-of-Code solutions<img width="5%" alt="Advent of Code icon: star with hat" src="https://github.com/elendil7/Advent-of-Code/blob/master/media/images/AoC_christmas_hat_star_icon.png?raw=true"></h1>
+  <h1><img width="5%" alt="Advent of Code icon: star with hat" src="https://github.com/elendil7/Advent-of-Code/blob/master/media/images/AoC_christmas_hat_star_icon.png?raw=true">Advent-of-Code-Solutions<img width="5%" alt="Advent of Code icon: star with hat" src="https://github.com/elendil7/Advent-of-Code/blob/master/media/images/AoC_christmas_hat_star_icon.png?raw=true"></h1>
 </div>
 
 <div>
