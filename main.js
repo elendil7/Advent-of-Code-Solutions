@@ -8,11 +8,16 @@ const {
 } = require('fs');
 const { join, dirname } = require('path');
 
-async function getInput() {
+const getDate = async () => {
 	// get date & day
 	let today = new Date();
 	let day = today.getDate();
-	// day = 2;
+	// day = 3;
+	return day;
+};
+
+async function getInput() {
+	let day = await getDate();
 
 	const { statusCode, headers, trailers, body } = await request(
 		`https://adventofcode.com/2022/day/${day}/input`,
@@ -39,9 +44,7 @@ async function getInput() {
 }
 
 async function createDirectories() {
-	// get date & day
-	let today = new Date();
-	let day = today.getDate();
+	let day = await getDate();
 
 	for (let i = day + 1; i <= 25; ++i) {
 		// create path strings
@@ -64,6 +67,6 @@ async function createDirectories() {
 	}
 }
 
-// createDirectories();
+createDirectories();
 
 module.exports = { getInput };

@@ -4,7 +4,7 @@ const { getInput } = require(join(__dirname, `../main.js`));
 
 const start = async () => {
 	const input = await getInput();
-	// console.log(input);
+	console.log(input);
 	part1(input, (arr = []));
 };
 
