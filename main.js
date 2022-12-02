@@ -37,3 +37,33 @@ async function getInput() {
 
 	return text;
 }
+
+async function createDirectories() {
+	// get date & day
+	let today = new Date();
+	let day = today.getDate();
+
+	for (let i = day + 1; i <= 25; ++i) {
+		// create path strings
+		let properPath = join(__dirname, `` + i);
+		let source = join(__dirname, 'template.js');
+		let destination = join(properPath, 'index.js');
+
+		// make dir if does not exist
+		try {
+			readdirSync(properPath);
+		} catch (err) {
+			mkdirSync(properPath);
+		}
+
+		// get template.js file contents
+		let template = readFileSync(source, 'utf-8');
+
+		// write template js files to each directory, with proper formatting
+		writeFileSync(destination, template);
+	}
+}
+
+// createDirectories();
+
+module.exports = { getInput };
