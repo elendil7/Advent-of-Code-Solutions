@@ -19,7 +19,7 @@
   <ul>
     <li>This repository essentially a <i>data bank</i> for the storage of a compendium of <strong>AoC solutions</strong>, accumulated over the years. To find a specific solution, scroll down to the <strong>"Navigation"</strong> heading below.</li>
     <li>Solutions to both <strong>old</strong> and <strong>novel</strong> puzzles will be uploaded indefinitely, so be sure to keep an eye on this repository.</li>
-    <li>Feel free to look through the solutions to <i>compare</i> them with your own, or use them as <i>hints</i> if you're struggling with the task.
+    <li>Feel free to look through the solutions year by year, to <i>compare</i> them with your own, or use them as <i>hints</i> if you're struggling with the task.
   </ul>
   
   <h3>Languages</h3>
