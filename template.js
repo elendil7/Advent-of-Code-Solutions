@@ -1,3 +1,5 @@
+// * ATTEMPT 1
+
 const fs = require('fs');
 const { join } = require('path');
 const { getInput } = require(join(__dirname, `../main.js`));
