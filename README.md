@@ -1,5 +1,5 @@
 <div align="center">
-  <h1><img width="5%" alt="Advent of Code icon: star with hat" src="https://github.com/elendil7/Advent-of-Code/blob/master/media/images/AoC_christmas_hat_star_icon.png?raw=true">Advent-of-Code-Solutions<img width="5%" alt="Advent of Code icon: star with hat" src="https://github.com/elendil7/Advent-of-Code/blob/master/media/images/AoC_christmas_hat_star_icon.png?raw=true"></h1>
+  <h1><img width="5%" alt="Advent of Code icon: star with hat" src="https://github.com/elendil7/Advent-of-Code/blob/master/assets/images/AoC_christmas_hat_star_icon.png?raw=true">Advent-of-Code-Solutions<img width="5%" alt="Advent of Code icon: star with hat" src="https://github.com/elendil7/Advent-of-Code/blob/master/assets/images/AoC_christmas_hat_star_icon.png?raw=true"></h1>
 </div>
 
 <div>
@@ -12,7 +12,7 @@
   </ul>
   
   <div align="center">
-    <img width="40%" alt="Advent of Code: Xmas tree" src="https://github.com/elendil7/Advent-of-Code/blob/master/media/images/AoC_banner.jpg?raw=true">
+    <img width="40%" alt="Advent of Code: Xmas tree" src="https://github.com/elendil7/Advent-of-Code/blob/master/assets/images/AoC_banner.jpg?raw=true">
   </div>
   
   <h3>What is this repo?</h1>
@@ -25,7 +25,7 @@
   <h3>Languages</h3>
   <p><i>Languages that I have utilised in past AoC competitions will be listed below:</i></p>
   <div align="left">
-    <img width="15%" alt="JavaScript logo" src="https://github.com/elendil7/Advent-of-Code/blob/master/media/svgs/javascript_icon.svg?raw=true">
+    <img width="15%" alt="JavaScript logo" src="https://github.com/elendil7/Advent-of-Code/blob/master/assets/svgs/javascript_icon.svg?raw=true">
    </div>
   
   <h1>Disclaimer</h1>
@@ -45,6 +45,6 @@
   <hr>
 
   <div align="center">
-      <img width="50%" alt="Advent of Code: Xmas tree" src="https://github.com/elendil7/Advent-of-Code/blob/master/media/images/AoC_christmas_tree.png?raw=true">
+      <img width="50%" alt="Advent of Code: Xmas tree" src="https://github.com/elendil7/Advent-of-Code/blob/master/assets/images/AoC_christmas_tree.png?raw=true">
    </div>
 </div>
