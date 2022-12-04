@@ -9,6 +9,7 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"dotenv": "^16.0.3",
 		"undici": "^5.13.0"
 	}
 }

@@ -2,3 +2,4 @@ package-lock.json
 *.tmp
 node_modules
 tempCodeRunnerFile.js
+.env
