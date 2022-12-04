@@ -28,8 +28,6 @@ async function splitInputEveryNLines(input, lines) {
 async function splitInputEveryBlankLine(input) {
 	const arr = input.toString().trim().split('\n');
 
-	console.log(arr);
-
 	let clusters = [];
 	let temp = [];
 
