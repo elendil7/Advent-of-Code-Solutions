@@ -1,7 +1,7 @@
 const { join } = require('path');
 const { getFullPaths } = require('./getFullPaths');
 const { readdirSync, mkdirSync, readFileSync, writeFileSync } = require('fs');
-const { getDay } = require('../misc/getDay');
+const { getDay } = require('../misc/getDate');
 
 async function createStruct() {
 	// get & create path strings

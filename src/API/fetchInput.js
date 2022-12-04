@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { getDay } = require('../utils/misc/getDay');
+const { getDay } = require('../utils/misc/getDate');
 const { getFullPaths } = require('../utils/main/getFullPaths');
 const { request } = require('undici');
 const { readdirSync, mkdirSync, writeFileSync } = require('fs');

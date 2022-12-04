@@ -1,6 +1,5 @@
 const { join } = require('path');
-const { getDay } = require('../misc/getDay');
-const { getYear } = require('../misc/getYear');
+const { getDay, getYear } = require('../misc/getDate');
 
 async function getFullPaths() {
 	const day = await getDay();
