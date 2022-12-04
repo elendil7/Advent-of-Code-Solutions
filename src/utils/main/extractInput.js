@@ -15,7 +15,7 @@ async function splitInputEveryNLines(input, lines) {
 	for (let i = 0; i < arr.length; ++i) {
 		const cur = String(arr[i]).replace(/(\r\n|\n|\r)/gm, '');
 		temp.push(cur);
-		if (i !== 0 && (i + 1) % lines == 0) {
+		if ((i + 1) % lines == 0) {
 			clusters.push(temp);
 			temp = [];
 		}
