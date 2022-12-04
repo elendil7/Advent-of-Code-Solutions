@@ -110,7 +110,7 @@ async function part1(input, arr) {
 	part2(input, splitted);
 }
 
-// * PART #2 (5 minutes) (simple - changed "every" to "some" method to check if at least 1 value overlaps between the two ranges)
+// * PART #2 (5 minutes) (simple - mostly similar code; changed "every" to "some" method to check if at least 1 value overlaps between the two ranges)
 async function part2(input, splitted) {
 	let totalPairs = 0;
 
