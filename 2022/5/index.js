@@ -22,9 +22,10 @@ start();
 async function part1(input) {
 	// console.log(input);
 
-	// split input every "n" lines.
-	const split = await input.splitInputEveryNLines(1).slice(10);
-	// console.log('SplitEveryNLines: ', split);
+	const split = await input.splitInputEveryBlankLine()[1];
+
+	// console.log(split);
+	// console.log(split[split.length - 1]);
 
 	// * Write code here:
 
