@@ -15,10 +15,21 @@ const initializeTools = () => {
 
 		Enable hints (intellisense) for custom functions in VSCode??
 		Forums:
-			- https://stackoverflow.com/questions/60239312/object-prototype-hints-in-vs-code
+			- For JS (no one knows): https://stackoverflow.com/questions/60239312/object-prototype-hints-in-vs-code
+			- For PHP (there is an intellisense extension): https://stackoverflow.com/questions/42867651/parameter-suggestion-for-custom-functions-in-visual-studio-code
+			- How to document prototype methods: https://stackoverflow.com/questions/27343152/jsdoc-how-to-document-prototype-methods
+		
+		Write custom code snippets:
+			- https://stackoverflow.com/questions/63785746/how-do-you-create-a-single-custom-intellisense-feature-in-vscode
+			- Tool for doing so: https://snippet-generator.app/
 	*/
 
 	// * Array.prototype custom methods
+	/**
+	 * @memberof Array.prototype
+	 * @returns {Number}
+	 * @typedef
+	 */
 	Array.prototype.getSmallestNum = function () {
 		return Math.min(...this);
 	};
