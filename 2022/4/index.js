@@ -1,21 +1,25 @@
 // libraries & modules
 const fs = require('fs');
+const { convert } = require('convert');
 const { fetchInput } = require('../../src/API/fetchInput');
 const {
-	splitInputEveryNLines,
-	splitInputEveryBlankLine,
+	initializeInputExtractionTools,
 } = require('../../src/utils/main/extractInput');
 
+const { initializeTools, tools } = require('../../src/utils/main/usefulTools');
+
 const start = async () => {
-	const rawInput = await fetchInput();
-	part1(rawInput, (arr = []));
+	initializeTools();
+	initializeInputExtractionTools();
+	const data = await fetchInput();
+	return data instanceof Error ? console.error(data.message) : part1(data);
 };
 start();
 
 // * ATTEMPT #1
 
 // * PART #1 (time: 1 hour 43 minutes) (reason: input parser was BUSTED man, what a shame. All iterations of code are spot on but answer was off by 1 each time.)
-async function part1(input, arr) {
+async function part1(input) {
 	// console.log(input);
 
 	// split input at every blank line
