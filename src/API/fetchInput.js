@@ -23,7 +23,7 @@ async function fetchInput() {
 		// otherwise, fetch input from website
 	} catch (err) {
 		const { statusCode, headers, trailers, body } = await request(
-			`https://adventofcode.com/${year}rgregregre/day/${day}/input`,
+			`https://adventofcode.com/${year}/day/${day}/input`,
 			{
 				headers: {
 					cookie: `session=${process.env.COOKIE_HASH}`,
