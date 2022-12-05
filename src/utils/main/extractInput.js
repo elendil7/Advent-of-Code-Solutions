@@ -31,9 +31,14 @@ const initializeInputExtractionTools = () => {
 		let clusters = [];
 		let temp = [];
 
-		for (let i = 0; i <= arr.length; ++i) {
+		for (let i = 0; i < arr.length; ++i) {
 			const cur = String(arr[i]).replace(/(\r\n|\n|\r)/gm, '');
-			if (cur == '' || (!cur && temp.length > 0)) {
+			// edge case (end of array)
+			if (i + 1 === arr.length) {
+				temp.push(cur);
+				clusters.push(temp);
+				break;
+			} else if (cur == '') {
 				clusters.push(temp);
 				temp = [];
 			} else {
