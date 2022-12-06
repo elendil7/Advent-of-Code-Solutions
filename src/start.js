@@ -8,7 +8,7 @@ const run = new Promise(async (res, rej) => {
 		// fetch input from adventofcode.com
 		await fetchInput();
 
-		return res(`All operations sucessfully completed`);
+		return res(`All operations sucessfully completed\n`);
 	} catch (err) {
 		return rej(`\n\nError: ${err}\n\n`);
 	}
