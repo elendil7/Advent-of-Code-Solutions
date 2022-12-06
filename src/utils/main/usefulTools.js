@@ -72,6 +72,9 @@ const initializeTools = () => {
 	};
 
 	// * String.prototype custom methods
+	String.prototype.removeDuplicates = function () {
+		return [...new Set(this)];
+	};
 	String.prototype.removeWhitespace = function () {
 		return this.replace(/\s/g, '');
 	};
