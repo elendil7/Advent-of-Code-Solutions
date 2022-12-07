@@ -110,6 +110,28 @@ const initializeTools = () => {
 		return res;
 	};
 
+	// * Object.prototype custom methods
+	Object.prototype.sortLowToHigh = function () {
+		let sortable = [];
+		for (let key in this) {
+			if (!ObjectPrototypes.includes(key)) {
+				sortable.push([key, this[key]]);
+			}
+		}
+		sortable.sort((a, b) => a[1] - b[1]);
+		return sortable;
+	};
+	Object.prototype.sortHighToLow = function () {
+		let sortable = [];
+		for (let key in this) {
+			if (!ObjectPrototypes.includes(key)) {
+				sortable.push([key, this[key]]);
+			}
+		}
+		sortable.sort((a, b) => b[1] - a[1]);
+		return sortable;
+	};
+
 	// * Add custom method to tools object.
 	Object.defineProperty(tools, 'populateArray', {
 		value: function (start, end) {
@@ -118,6 +140,12 @@ const initializeTools = () => {
 			return [...Array(Math.abs(max - min + 1))].map((v, i) => min + i);
 		},
 	});
+
+	// * Make variables (after all custom methods declared - important!)
+	// arrays for storing every type of prototype method relating to String, Array, and Object respectively.
+	const ObjectPrototypes = Object.getOwnPropertyNames(Object.prototype);
+	const ArrayPrototypes = Object.getOwnPropertyNames(Array.prototype);
+	const StringPrototypes = Object.getOwnPropertyNames(String.prototype);
 };
 
 module.exports = {
