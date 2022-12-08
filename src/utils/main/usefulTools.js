@@ -131,6 +131,9 @@ const initializeTools = () => {
 		sortable.sort((a, b) => b[1] - a[1]);
 		return sortable;
 	};
+	Object.prototype.sortByValues = function () {
+		return Object.values(this).sort((a, b) => a - b);
+	};
 
 	// * Add custom method to tools object.
 	Object.defineProperty(tools, 'populateArray', {
