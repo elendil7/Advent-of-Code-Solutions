@@ -18,6 +18,8 @@ function test() {
 		'The quick and quick purple cat jumped over the The jumped dog quickly.....';
 
 	console.log(regularStr.removeDuplicates());
-	console.log(regularStr.removeWhitespace());
-	console.log(regularStr.reverseString());
+	console.log(messedUpStr.removeWhitespace());
+	console.log(largeStr.reverseString());
+	console.log(strWithParenthesis.getSubstring('(', ')'));
+	console.log(strWithParenthesis.getAllSubstrings('(', ')'));
 }
