@@ -26,8 +26,6 @@ async function part1(input) {
 	const split = await input.splitInputEveryNLines(1);
 	//console.log('SplitEveryNLines: ', split);
 
-	// check if first move has been made (head moves first, tail moves last)
-	let firstMove = true;
 	// [x, y] coords (along the corridor & up the stairs...)
 	let headCurPos = [0, 0];
 	let tailCurPos = [0, 0];
@@ -61,62 +59,58 @@ async function part1(input) {
 			}
 
 			// * tails moves last...
-			if (firstMove == false) {
+			if (
+				Math.abs(headCurPos[0] - tailCurPos[0]) +
+					Math.abs(headCurPos[1] - tailCurPos[1]) ===
+				3
+			) {
+				// move diagonally (if applicable)
 				if (
-					Math.abs(headCurPos[0] - tailCurPos[0]) +
-						Math.abs(headCurPos[1] - tailCurPos[1]) ===
-					3
+					// left-down
+					headCurPos[0] < tailCurPos[0] &&
+					headCurPos[1] < tailCurPos[1]
 				) {
-					// move diagonally (if applicable)
-					if (
-						// left-down
-						headCurPos[0] < tailCurPos[0] &&
-						headCurPos[1] < tailCurPos[1]
-					) {
-						tailCurPos = [tailCurPos[0] - 1, tailCurPos[1] - 1];
-					} else if (
-						// right-down
-						headCurPos[0] > tailCurPos[0] &&
-						headCurPos[1] < tailCurPos[1]
-					) {
-						tailCurPos = [tailCurPos[0] + 1, tailCurPos[1] - 1];
-					} else if (
-						// left-up
-						headCurPos[0] < tailCurPos[0] &&
-						headCurPos[1] > tailCurPos[1]
-					) {
-						tailCurPos = [tailCurPos[0] - 1, tailCurPos[1] + 1];
-					} else if (
-						// right-up
-						headCurPos[0] > tailCurPos[0] &&
-						headCurPos[1] > tailCurPos[1]
-					) {
-						tailCurPos = [tailCurPos[0] + 1, tailCurPos[1] + 1];
-					}
-					// add the coords to the hashmap (object)
-					await addToObjectPartOne(tailCurPos);
+					tailCurPos = [tailCurPos[0] - 1, tailCurPos[1] - 1];
 				} else if (
-					Math.abs(headCurPos[0] - tailCurPos[0]) +
-						Math.abs(headCurPos[1] - tailCurPos[1]) ===
-						2 &&
-					(headCurPos[0] === tailCurPos[0] ||
-						headCurPos[1] === tailCurPos[1])
+					// right-down
+					headCurPos[0] > tailCurPos[0] &&
+					headCurPos[1] < tailCurPos[1]
 				) {
-					// move in a linear fashion (up, down, left, right)
-					if (direction == 'L') {
-						tailCurPos = [tailCurPos[0] - 1, tailCurPos[1]];
-					} else if (direction == 'R') {
-						tailCurPos = [tailCurPos[0] + 1, tailCurPos[1]];
-					} else if (direction == 'D') {
-						tailCurPos = [tailCurPos[0], tailCurPos[1] - 1];
-					} else if (direction == 'U') {
-						tailCurPos = [tailCurPos[0], tailCurPos[1] + 1];
-					}
-					await addToObjectPartOne(tailCurPos);
+					tailCurPos = [tailCurPos[0] + 1, tailCurPos[1] - 1];
+				} else if (
+					// left-up
+					headCurPos[0] < tailCurPos[0] &&
+					headCurPos[1] > tailCurPos[1]
+				) {
+					tailCurPos = [tailCurPos[0] - 1, tailCurPos[1] + 1];
+				} else if (
+					// right-up
+					headCurPos[0] > tailCurPos[0] &&
+					headCurPos[1] > tailCurPos[1]
+				) {
+					tailCurPos = [tailCurPos[0] + 1, tailCurPos[1] + 1];
 				}
+				// add the coords to the hashmap (object)
+				await addToObjectPartOne(tailCurPos);
+			} else if (
+				Math.abs(headCurPos[0] - tailCurPos[0]) +
+					Math.abs(headCurPos[1] - tailCurPos[1]) ===
+					2 &&
+				(headCurPos[0] === tailCurPos[0] ||
+					headCurPos[1] === tailCurPos[1])
+			) {
+				// move in a linear fashion (up, down, left, right)
+				if (direction == 'L') {
+					tailCurPos = [tailCurPos[0] - 1, tailCurPos[1]];
+				} else if (direction == 'R') {
+					tailCurPos = [tailCurPos[0] + 1, tailCurPos[1]];
+				} else if (direction == 'D') {
+					tailCurPos = [tailCurPos[0], tailCurPos[1] - 1];
+				} else if (direction == 'U') {
+					tailCurPos = [tailCurPos[0], tailCurPos[1] + 1];
+				}
+				await addToObjectPartOne(tailCurPos);
 			}
-
-			firstMove = false;
 
 			/* 			console.log(`Cur: `, cur);
 			console.log('Head pos: ', headCurPos);
@@ -249,7 +243,7 @@ async function part2(input, split) {
 				ropeKnots[0] = [ropeKnots[0][0], ropeKnots[0][1] + 1];
 			}
 
-			// console.log('Rope knots', ropeKnots);
+			console.log('Rope knots', ropeKnots);
 
 			// do not move for the first iteration, then move freely after (heat must get 2 <= x <= 3 spaces ahead first before we move the ropeKnots to follow head)
 			if (firstMove == false) {
