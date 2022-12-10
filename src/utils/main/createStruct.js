@@ -8,6 +8,8 @@ async function createStruct() {
 	// get current day & year
 	const day = await getDay();
 	const year = await getYear();
+	// get alphabet
+	const alphabet = '.abcdefghijklmnopqrstuvwxyz';
 
 	// get next day number
 	const nextDayNum = day + 1;
@@ -31,10 +33,17 @@ async function createStruct() {
 		const template = readFileSync(source, 'utf-8');
 
 		// only create directories after the current task day (to avoid overwriting completed tasks on previous days)
-		for (let nextDay = nextDayNum; nextDay <= config.maxDay; ++nextDay) {
+		for (
+			let nextDay = nextDayNum;
+			nextDay <= nextDayNum && nextDay <= config.maxDay;
+			++nextDay
+		) {
 			// get full nextDay path, then get destination for said path
-			const nextDayPath = `${yearPath}/${nextDay}`;
+			const nextDayPath = `${yearPath}/(${alphabet[nextDay]})_Day${nextDay}`;
 			const destination = `${nextDayPath}/index.js`;
+
+			console.log(nextDayPath);
+			console.log(destination);
 
 			// make next DAY dir if does not exist
 			try {
