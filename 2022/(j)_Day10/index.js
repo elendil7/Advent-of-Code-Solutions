@@ -128,4 +128,71 @@ async function part2(input, lines) {
 	}
 
 	console.log(outputArr);
+
+	attempt2Part2(input, lines);
+}
+
+// * ATTEMPT 2
+
+// * PART #2 (26 minutes, 35 seconds)
+async function attempt2Part2(input, lines) {
+	let arr = [];
+	let signalStrengths = [];
+	let netCycles = 0;
+	let X = 1;
+
+	for (let i = 0; i < lines.length; i++) {
+		let [instruction, value] = String(lines[i]).split(' ');
+		value = !value ? 0 : parseInt(value);
+
+		netCycles += 1;
+
+		// check pixel pos after 2nd cycle
+		if (
+			Math.abs(X - ((netCycles % 40) - 1)) === 1 ||
+			Math.abs(X - ((netCycles % 40) - 1)) === 0
+		) {
+			arr.push('#');
+		} else {
+			arr.push(' ');
+		}
+
+		if ((netCycles + 20) % 40 === 0 || netCycles === 20) {
+			signalStrengths.push(netCycles * X);
+		}
+
+		if (instruction === 'addx') {
+			netCycles += 1;
+
+			// check pixel pos after 2nd cycle
+			if (
+				Math.abs(X - ((netCycles % 40) - 1)) === 1 ||
+				Math.abs(X - ((netCycles % 40) - 1)) === 0
+			) {
+				arr.push('#');
+			} else {
+				arr.push(' ');
+			}
+
+			if ((netCycles + 20) % 40 === 0 || netCycles === 20) {
+				signalStrengths.push(netCycles * X);
+			}
+		}
+
+		X += value;
+	}
+
+	let output = '';
+	let temp = [];
+
+	for (let i = 0; i < arr.length; i++) {
+		const cur = String(arr[i]);
+		temp.push(cur);
+		if ((i + 1) % 40 === 0) {
+			output += `${temp.join('')}\n`;
+			temp = [];
+		}
+	}
+
+	console.log(output);
 }
