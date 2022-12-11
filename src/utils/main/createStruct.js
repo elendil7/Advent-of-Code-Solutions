@@ -4,25 +4,29 @@ const { readdirSync, mkdirSync, readFileSync, writeFileSync } = require('fs');
 const { getDay, getYear } = require('../misc/getDate');
 const { config } = require('../../../config.js');
 
-async function createStruct() {
+async function createStruct(day, year) {
 	// get current day & year
-	const day = await getDay();
-	const year = await getYear();
+	if (!day) day = await getDay();
+	if (!year) year = await getYear();
 	// get alphabet
 	const alphabet = '.abcdefghijklmnopqrstuvwxyz';
 
-	// get next day number
-	const nextDayNum = day + 1;
-
 	// check if day & year is within bounds before proceeding
 	if (
-		nextDayNum >= config.minDay &&
-		nextDayNum <= config.maxDay &&
+		day >= config.minDay &&
+		day <= config.maxDay &&
 		year >= config.minYear
 	) {
 		// get & create path strings
-		const paths = await getFullPaths();
+		const paths = await getFullPaths(day, year);
 		const yearPath = paths[0];
+
+		// make YEAR dir if does not exist
+		try {
+			readdirSync(yearPath);
+		} catch (err) {
+			mkdirSync(yearPath);
+		}
 
 		const source = join(
 			__dirname,
@@ -33,31 +37,26 @@ async function createStruct() {
 		const template = readFileSync(source, 'utf-8');
 
 		// only create directories after the current task day (to avoid overwriting completed tasks on previous days)
-		for (
-			let nextDay = nextDayNum;
-			nextDay <= nextDayNum && nextDay <= config.maxDay;
-			++nextDay
-		) {
-			// get full nextDay path, then get destination for said path
-			const nextDayPath = `${yearPath}/(${alphabet[nextDay]})_Day${nextDay}`;
-			const destination = `${nextDayPath}/index.js`;
+		for (let curDay = day; curDay <= day; ++curDay) {
+			// get full curDay path, then get destination for said path
+			const curDayPath = `${yearPath}/(${alphabet[curDay]})_Day${curDay}`;
+			const destination = `${curDayPath}/index.js`;
 
-			console.log(nextDayPath);
+			console.log(curDayPath);
 			console.log(destination);
 
 			// make next DAY dir if does not exist
 			try {
-				readdirSync(nextDayPath);
+				readdirSync(curDayPath);
 			} catch (err) {
-				mkdirSync(nextDayPath);
+				mkdirSync(curDayPath);
+				// write template js files to each directory, with proper formatting (only if the path did not exist)
+				writeFileSync(destination, template);
 			}
-
-			// write template js files to each directory, with proper formatting
-			writeFileSync(destination, template);
 		}
 
 		console.log(
-			`\nDirectories in year ${year} for days ${nextDayNum}-${config.maxDay} successfully created.\n`
+			`\nDirectories in year ${year} for days ${day} successfully created.\n`
 		);
 	} else {
 		console.error('\nDays or years out of bound. Change config.\n');

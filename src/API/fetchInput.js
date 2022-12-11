@@ -3,11 +3,15 @@ const { getDay, getYear } = require('../utils/misc/getDate');
 const { getFullPaths } = require('../utils/main/getFullPaths');
 const { request } = require('undici');
 const { readdirSync, mkdirSync, writeFileSync, readFileSync } = require('fs');
+const { sleep } = require('../utils/misc/sleep');
+const { config } = require('../../config');
 
-async function fetchInput() {
-	const day = await getDay();
-	const year = await getYear();
-	const fullPath = (await getFullPaths())[1];
+async function fetchInput(day, year) {
+	// get current day & year
+	if (!day) day = await getDay();
+	if (!year) year = await getYear();
+
+	const fullPath = (await getFullPaths(day, year))[1];
 
 	// make appropriate directory (if does not exist)
 	try {
@@ -43,7 +47,7 @@ async function fetchInput() {
 			return Error(
 				`\nStatus code: ${statusCode}\nData: ${
 					data.includes('404')
-						? 'No input available yet for day 5! Wait until 05:00AM.\n'
+						? `No input available yet for day ${curDay}! Wait until 05:00AM.\n`
 						: data
 				}`
 			);

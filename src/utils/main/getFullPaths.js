@@ -1,9 +1,6 @@
 const { join } = require('path');
-const { getDay, getYear } = require('../misc/getDate');
 
-async function getFullPaths() {
-	const day = await getDay();
-	const year = await getYear();
+async function getFullPaths(day, year) {
 	const alphabet = '.abcdefghijklmnopqrstuvwxyz';
 
 	// all stems from here. Tread carefully - hierarchy of project files must remain consistent else the program will break.
