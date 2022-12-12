@@ -25,11 +25,6 @@ const initializeTools = () => {
 	*/
 
 	// * Array.prototype custom methods
-	/**
-	 * @memberof Array.prototype
-	 * @returns {Number}
-	 * @typedef
-	 */
 	Array.prototype.getSmallestNum = function () {
 		return Math.min(...this);
 	};
