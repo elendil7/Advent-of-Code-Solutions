@@ -12,128 +12,131 @@ const start = async () => {
 	initializeTools();
 	initializeInputExtractionTools();
 	const data = await fetchInput();
-	return data instanceof Error ? console.error(data.message) : part1(data);
+	return data instanceof Error
+		? console.error(data.message)
+		: await part1(data) /* , await part2(data) */;
 };
 start();
 
 // * ATTEMPT #1
-async function generateNumberFromCoords(row, col) {
-	return String((3 + row) * (3 + col));
-}
+// template for each node: [x, y, letter, height]
 
-let elevations = 'abcdefghijklmnopqrstuvwxyz';
+const getCharCode = async (c) => {
+	return c.charCodeAt(0) - 97;
+};
 
-async function getPotentialDirections(rowLength, colLength, row, col, height) {
-	// get (letter, coord, elevationLetter, height) of coordinates (above, below, to left and right) of current coordinate.
-	let init = [];
+const scaleCoordinates = async (x, y) => {
+	return x * 1e3 + y;
+};
+const unscaleCoordinates = async (val) => {
+	return [Math.floor(val / 1e3), val % 1e3];
+};
 
-	if (row > 0) {
-		init.push(await generateNumberFromCoords(row - 1, col));
+const getNeighbours = async (graph, curPos, rowsLength, colsLength) => {
+	const [x, y] = await unscaleCoordinates(curPos);
+	console.log(x, y);
+
+	let neighbours = [];
+	let letter = undefined;
+
+	// up
+	if (x > 0) {
+		letter = graph[x - 1][y];
+		neighbours.push([x - 1, y, letter, await getCharCode(letter)]);
 	}
-	if (row < rowLength - 1) {
-		init.push(await generateNumberFromCoords(row + 1, col));
+	//down
+	if (x < rowsLength - 1) {
+		letter = graph[x + 1][y];
+		neighbours.push([x + 1, y, letter, await getCharCode(letter)]);
 	}
-	if (col > 0) {
-		init.push(await generateNumberFromCoords(row, col - 1));
+	//left
+	if (y > 0) {
+		letter = graph[x][y - 1];
+		neighbours.push([x, y - 1, letter, await getCharCode(letter)]);
 	}
-	if (col < colLength - 1) {
-		init.push(await generateNumberFromCoords(row, col + 1));
+	//right
+	if (y < colsLength - 1) {
+		letter = graph[x][y + 1];
+		neighbours.push([x, y + 1, letter, await getCharCode(letter)]);
 	}
 
-	// store potential directions in array. Filter to remove null values, and remove elevations of height > 1 of current height.
-	init = [up, down, left, right].filter(
-		(v) => height + 1 >= elevations.indexOf(v[2])
-	);
+	if (letter)
+		return neighbours.filter((v) => getCharCode(graph[x][y]) + 1 >= v[3]);
+};
 
-	return init;
+async function Dijkstra(graph, source, destination, rowsLength, colsLength) {
+	const dist = {};
+	const prev = {};
+	let Q = [];
+
+	for (let x = 0; x < rowsLength; ++x) {
+		for (let y = 0; y < colsLength; ++y) {
+			const v = await scaleCoordinates(x, y);
+			dist[v] = Infinity;
+			prev[v] = Infinity;
+			Q.push(v);
+		}
+	}
+
+	dist[await scaleCoordinates(source[0], source[1])] = 0;
+
+	while (Q.isArrayNotEmpty()) {
+		let u = null;
+		for (let i = 0; i < Q.sortLowToHigh().length; ++i) {
+			if (u === null || dist[Q[i]] < dist[u]) {
+				u = Q[i];
+			}
+		}
+		if (u === (await scaleCoordinates(destination[0], destination[1]))) {
+			break;
+		}
+
+		Q = Q.filter((v) => v !== u);
+
+		const neighbours = await getNeighbours(
+			graph,
+			u,
+			rowsLength,
+			colsLength
+		);
+		for (let i = 0; i < neighbours.length; ++i) {
+			const alt = dist[u] + 1;
+			const cur = neighbours[i];
+			const v = await scaleCoordinates(cur[0], cur[1]);
+			if (alt < dist[v]) {
+				dist[v] = alt;
+				prev[v] = u;
+			}
+		}
+	}
+
+	return { dist, prev };
 }
 
 // * PART #1
 async function part1(input) {
 	let lines = await input.splitInputEveryNLines(1);
 	lines = lines.map((v) => String(v).split(''));
+
+	const rowsLength = lines.length;
+	const colsLength = lines[0].length;
+	let startPos, endPos;
+
+	for (let x = 0; x < rowsLength; ++x) {
+		for (let y = 0; y < colsLength; ++y) {
+			const curPos = lines[x][y];
+			if (curPos === 'S') startPos = [x, y, 'a', await getCharCode('a')];
+			if (curPos === 'E') endPos = [x, y, 'z', await getCharCode('z')];
+		}
+	}
+
 	console.log(lines);
+	console.log(startPos, endPos);
 
-	// get basic info, store in variables
-	let startPos = [],
-		endPos = [];
-	const rowLength = lines.length;
-	const colLength = lines[0].length;
+	let data = await Dijkstra(lines, startPos, endPos, rowsLength, colsLength);
 
-	// * Dijkstra's_algorithm
-	// define following data structures:
-	// distances
-	const dist = {};
-	// previous nodes (already visited locations)
-	const prev = {};
-	// define heap
-	const heap = [];
-	// define heap and add starting point to it (fields: totalCost, row (x), col (y), elevationLetter, height)
-	//let heap = [[0, startPos[1], startPos[2], 0, 'a']];
-
-	// get S & E positions in 2D array, and populate data structures above
-	// for rows
-	for (let row = 0; row < lines.length; row++) {
-		// for columns
-		for (let col = 0; col < lines[row].length; col++) {
-			const cur = lines[row][col];
-			if (cur === 'S') startPos.push('S', row, col);
-			if (cur === 'E') endPos.push('E', row, col);
-			const id = await generateNumberFromCoords(row, col);
-			dist[id] = Infinity;
-			prev[id] = false;
-			heap.push(id);
-		}
-	}
-
-	console.log(dist, prev, heap);
-
-	// set starting point in dist to 0
-	dist[await generateNumberFromCoords(startPos[0], startPos[1])] = 0;
-
-	while (heap.isArrayNotEmpty()) {
-		// get min
-		let min = null;
-		for (let i = 0; i < heap.length; i++) {
-			const cur = heap[i];
-			if (min === null || dist[cur] < dist[min]) {
-				min = cur;
-			}
-		}
-
-		console.log(heap);
-
-		const [steps, row, col, height, letter] = heap.shift();
-
-		// if already visited, skip current iteration of loop
-		if (prev[await generateNumberFromCoords(row, col)]) continue;
-		// otherwise set to true (to show that already has been visited)
-		prev[await generateNumberFromCoords(row, col)] = true;
-
-		// get potential directions (look for next nodes to pathfind to)
-		const potentialDirections = await getPotentialDirections(
-			rowLength,
-			colLength,
-			row,
-			col,
-			height
-		);
-
-		console.log(potentialDirections);
-
-		// push each node to heap (Q)
-		for (let i = 0; i < potentialDirections.length; i++) {
-			heap.push([
-				steps + 1,
-				potentialDirections[i][0],
-				potentialDirections[i][1],
-				potentialDirections[i][2],
-				potentialDirections[i][3],
-			]);
-		}
-	}
-
-	part2(input);
+	console.log(data.dist);
+	console.log(data.dist[scaleCoordinates(endPos[0], endPos[1])]);
 }
 
 // * PART #2
