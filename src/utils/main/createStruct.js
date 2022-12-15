@@ -40,10 +40,12 @@ async function createStruct(day, year) {
 		for (let curDay = day; curDay <= day; ++curDay) {
 			// get full curDay path, then get destination for said path
 			const curDayPath = `${yearPath}/(${alphabet[curDay]})_Day${curDay}`;
-			const destination = `${curDayPath}/index.js`;
+			const destinationPt1 = `${curDayPath}/part1.js`;
+			const destinationPt2 = `${curDayPath}/part2.js`;
 
-			console.log(curDayPath);
-			console.log(destination);
+			console.log(
+				`\nPart 1 path: ${destinationPt1}\nPart 2 path: ${destinationPt2}`
+			);
 
 			// make next DAY dir if does not exist
 			try {
@@ -51,7 +53,8 @@ async function createStruct(day, year) {
 			} catch (err) {
 				mkdirSync(curDayPath);
 				// write template js files to each directory, with proper formatting (only if the path did not exist)
-				writeFileSync(destination, template);
+				writeFileSync(destinationPt1, template);
+				writeFileSync(destinationPt2, template);
 			}
 		}
 
