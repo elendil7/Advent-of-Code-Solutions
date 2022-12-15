@@ -14,9 +14,18 @@ const start = async () => {
 	initializeTools();
 	initializeInputExtractionTools();
 	const data = await fetchInput(14, 2022);
-	return data instanceof Error ? console.error(data.message) : task(data);
+	console.time('Execution time');
+	await (data instanceof Error ? console.error(data.message) : task(data));
+	console.timeEnd('Execution time');
 };
 start();
+
+const symbols = {
+	air: '🟦',
+	rock: '🧱',
+	sand: '🏖️',
+	plus: '➕',
+};
 
 async function getCoordinates(lines, coordinates) {
 	for (let i = 0; i < lines.length; i++) {
@@ -35,7 +44,7 @@ async function getCoordinates(lines, coordinates) {
 
 async function generateCave(maxX, maxY) {
 	return [...Array(maxY + 3)].map((v) =>
-		[...Array(maxX + 600)].map((v) => '.')
+		[...Array(maxX + 600)].map((v) => symbols.air)
 	);
 }
 
@@ -54,11 +63,11 @@ async function constructCave(lines, unfinishedCave) {
 
 			if (old_y === cur_y) {
 				for (let steps = 0; steps <= Math.abs(old_x - cur_x); ++steps) {
-					unfinishedCave[y][x + steps] = '#';
+					unfinishedCave[y][x + steps] = symbols.rock;
 				}
 			} else if (old_x === cur_x) {
 				for (let steps = 0; steps <= Math.abs(old_y - cur_y); ++steps) {
-					unfinishedCave[y + steps][x] = '#';
+					unfinishedCave[y + steps][x] = symbols.rock;
 				}
 			}
 		}
@@ -73,12 +82,6 @@ async function manifestFloor(cave) {
 	}
 	return cave;
 }
-
-const symbols = {
-	air: '.',
-	rock: '#',
-	sand: 'O',
-};
 
 async function checkBelow(cave, c) {
 	return cave[c.y + 1][c.x] === symbols.air;
@@ -115,7 +118,7 @@ async function nextSandFalls(cave) {
 	return null;
 }
 
-const printCave = (cave, minY, maxY, minX, maxX) => {
+const printCave = async (cave, minY, maxY, minX, maxX) => {
 	console.log('\nCAVE: ');
 	cave.slice(0, maxY + 11).forEach((line) => {
 		console.log(line.slice(minX - 100, maxX + 101).join(''));
@@ -141,13 +144,16 @@ async function task(input) {
 
 	const cave = await manifestFloor(constructedCave);
 
-	cave[0][500] = '+';
+	cave[0][500] = symbols.plus;
 
 	let totalFallenSand = 0;
-	while (cave[0][500] !== 'O') {
+	while (cave[0][500] !== symbols.sand) {
 		const c = await nextSandFalls(cave);
 		cave[c.y][c.x] = symbols.sand;
 		totalFallenSand++;
+		/* 		console.clear();
+		await printCave(cave, minY, maxY, minX, maxX);
+		await sleep(5); */
 	}
 
 	printCave(cave, minY, maxY, minX, maxX);

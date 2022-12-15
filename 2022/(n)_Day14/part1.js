@@ -14,9 +14,19 @@ const start = async () => {
 	initializeTools();
 	initializeInputExtractionTools();
 	const data = await fetchInput(14, 2022);
-	return data instanceof Error ? console.error(data.message) : task(data);
+	console.time('Execution time');
+	await (data instanceof Error ? console.error(data.message) : task(data));
+	console.timeEnd('Execution time');
 };
 start();
+
+// store symbols for later usage
+const symbols = {
+	air: '🟦',
+	rock: '🧱',
+	sand: '🏖️',
+	plus: '➕',
+};
 
 async function getCoordinates(lines, coordinates) {
 	// loop through N lines of instructions (first time), and store every coordinate possible
@@ -38,7 +48,7 @@ async function getCoordinates(lines, coordinates) {
 async function generateCave(maxX, maxY) {
 	// construct cave using sizes derived above
 	return [...Array(maxY + 3)].map((v) =>
-		[...Array(maxX + 6)].map((v) => '.')
+		[...Array(maxX + 6)].map((v) => symbols.air)
 	);
 }
 
@@ -60,24 +70,17 @@ async function constructCave(lines, unfinishedCave) {
 
 			if (old_y === cur_y) {
 				for (let steps = 0; steps <= Math.abs(old_x - cur_x); ++steps) {
-					unfinishedCave[y][x + steps] = '#';
+					unfinishedCave[y][x + steps] = symbols.rock;
 				}
 			} else if (old_x === cur_x) {
 				for (let steps = 0; steps <= Math.abs(old_y - cur_y); ++steps) {
-					unfinishedCave[y + steps][x] = '#';
+					unfinishedCave[y + steps][x] = symbols.rock;
 				}
 			}
 		}
 	}
 	return unfinishedCave;
 }
-
-// store symbols for later usage
-const symbols = {
-	air: '.',
-	rock: '#',
-	sand: 'O',
-};
 
 async function checkBelow(cave, c) {
 	return cave[c.y + 1][c.x] === symbols.air;
@@ -125,7 +128,7 @@ async function nextSandFalls(cave) {
 }
 
 // only prints within the cave bounds (limits)
-const printCave = (cave, minY, maxY, minX, maxX) => {
+const printCave = async (cave, minY, maxY, minX, maxX) => {
 	console.log('\nCAVE: ');
 	cave.slice(0, maxY + 1).forEach((line) => {
 		console.log(line.slice(minX, maxX + 1).join(''));
@@ -155,7 +158,7 @@ async function task(input) {
 	const cave = await constructCave(lines, unfinishedCave);
 
 	// define source of sand as "+"
-	cave[0][500] = '+';
+	cave[0][500] = symbols.plus;
 
 	// log total sand fallen
 	let totalFallenSand = 0;
@@ -170,7 +173,9 @@ async function task(input) {
 		// increase total fallen sand so far
 		totalFallenSand++;
 		// print cave for vanity purposes
-		//printCave(cave, minY, maxY, minX, maxX);
+		/* 		console.clear();
+		await printCave(cave, minY, maxY, minX, maxX);
+		await sleep(100); */
 	}
 
 	printCave(cave, minY, maxY, minX, maxX);
