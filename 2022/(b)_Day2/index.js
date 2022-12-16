@@ -129,10 +129,10 @@ rockPaperScissorsPartTwo();
 
 // * ATTEMPT 2 (20 minutes)
 
-const { getInput } = require(`../main.js`);
+const { fetchInput } = require('../../src/API/fetchInput');
 
 const start = async () => {
-	const input = await getInput();
+	const input = await fetchInput(2, 2022);
 	// console.log(input);
 	part1(input, (arr = []));
 };

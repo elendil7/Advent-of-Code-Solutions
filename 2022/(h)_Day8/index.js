@@ -11,7 +11,7 @@ const { initializeTools, tools } = require('../../src/utils/main/usefulTools');
 const start = async () => {
 	initializeTools();
 	initializeInputExtractionTools();
-	const data = await fetchInput();
+	const data = await fetchInput(8, 2022);
 	return data instanceof Error ? console.error(data.message) : part1(data);
 };
 start();
@@ -22,7 +22,10 @@ start();
 async function part1(input) {
 	//console.log(input);
 
-	let split = input.splitInputEveryNLines(1).map((v) => `` + v);
+	let split = input
+		.splitInputEveryNLines(1)
+		.map((v) => `` + v)
+		.filter((v) => v);
 
 	//console.log(split);
 

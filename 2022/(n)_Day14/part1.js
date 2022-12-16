@@ -140,6 +140,8 @@ async function task(input) {
 	// get input
 	const lines = await input.splitInputEveryNLines(1);
 
+	console.log(lines[lines.length - 2], lines[lines.length - 1]);
+
 	// get coordinates
 	const coordinates = await getCoordinates(lines, {});
 

@@ -67,10 +67,10 @@ sumBiggestThree();
 
 // * ATTEMPT 2
 
-const { getInput } = require(join(__dirname, `../main.js`));
+const { fetchInput } = require('../../src/API/fetchInput');
 
 const start = async () => {
-	const input = await getInput();
+	const input = await fetchInput(1, 2022);
 	console.log(input);
 	part1(input, (arr = []));
 };
