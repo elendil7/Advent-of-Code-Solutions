@@ -34,7 +34,7 @@ async function createStruct(day, year) {
 		);
 
 		// get template.js file contents
-		const template = readFileSync(source, 'utf-8');
+		let template = readFileSync(source, 'utf-8');
 
 		// only create directories after the current task day (to avoid overwriting completed tasks on previous days)
 		for (let curDay = day; curDay <= day; ++curDay) {
@@ -52,9 +52,16 @@ async function createStruct(day, year) {
 				readdirSync(curDayPath);
 			} catch (err) {
 				mkdirSync(curDayPath);
+
+				// create custom file using template contents with day & year (only first match - global flag not required)
+				const customFile = template.replace(
+					/const data = await fetchInput\(\)/g,
+					`const data = await fetchInput(${day}, ${year})`
+				);
+
 				// write template js files to each directory, with proper formatting (only if the path did not exist)
-				writeFileSync(destinationPt1, template);
-				writeFileSync(destinationPt2, template);
+				writeFileSync(destinationPt1, customFile);
+				writeFileSync(destinationPt2, customFile);
 			}
 		}
 
