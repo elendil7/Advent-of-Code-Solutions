@@ -1,4 +1,5 @@
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 const { getDay, getYear } = require('../utils/misc/getDate');
 const { getFullPaths } = require('../utils/main/getFullPaths');
 const { request } = require('undici');
