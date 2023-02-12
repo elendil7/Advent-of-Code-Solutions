@@ -113,7 +113,7 @@ const initializeTools = () => {
 				sortable.push([key, this[key]]);
 			}
 		}
-		sortable.sort((a, b) => a[1] - b[1]);
+		sortable.sort((a, b) => +a[1] - +b[1]);
 		return sortable;
 	};
 	Object.prototype.sortHighToLow = function () {
@@ -123,8 +123,11 @@ const initializeTools = () => {
 				sortable.push([key, this[key]]);
 			}
 		}
-		sortable.sort((a, b) => b[1] - a[1]);
+		sortable.sort((a, b) => +b[1] - +a[1]);
 		return sortable;
+	};
+	Object.prototype.sortByKeys = function () {
+		return Object.keys(this).sort((a, b) => +a - +b);
 	};
 	Object.prototype.sortByValues = function () {
 		return Object.values(this).sort((a, b) => a - b);

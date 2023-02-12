@@ -11,7 +11,7 @@ const { initializeTools, tools } = require('../../src/utils/main/usefulTools');
 const start = async () => {
 	initializeTools();
 	initializeInputExtractionTools();
-	const data = await fetchInput();
+	const data = await fetchInput(10, 2022);
 	return data instanceof Error ? console.error(data.message) : part1(data);
 };
 start();

@@ -1,7 +1,7 @@
 const initializeInputExtractionTools = () => {
 	String.prototype.splitInputEveryNLines = function (lines) {
 		// split by each line
-		const arr = this.toString().trim().split('\n');
+		const arr = this.toString().split('\n');
 
 		// edge cases (for human error)
 		if (lines === 0) return this;
@@ -22,11 +22,14 @@ const initializeInputExtractionTools = () => {
 			}
 		}
 
+		// if last value in array is falsy, remove last value
+		if (clusters[clusters.length - 1] == '') clusters.pop();
+
 		// return bundled up lines as 2D array
 		return clusters;
 	};
 	String.prototype.splitInputEveryBlankLine = function () {
-		const arr = this.toString().trim().split('\n');
+		const arr = this.toString().split('\n');
 
 		let clusters = [];
 		let temp = [];
@@ -45,6 +48,8 @@ const initializeInputExtractionTools = () => {
 				temp.push(cur);
 			}
 		}
+
+		if (clusters[clusters.length - 1] == '') clusters.pop();
 
 		return clusters;
 	};

@@ -4,9 +4,9 @@ const { fetchInput } = require('./API/fetchInput');
 const run = new Promise(async (res, rej) => {
 	try {
 		// creature directory structure
-		await createStruct(3, 2015);
+		await createStruct();
 		// fetch input from adventofcode.com
-		await fetchInput(3, 2015);
+		await fetchInput();
 
 		return res(`All operations sucessfully completed\n`);
 	} catch (err) {
